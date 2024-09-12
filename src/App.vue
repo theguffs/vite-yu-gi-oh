@@ -1,37 +1,20 @@
 <script>
-import AppHeader from './components/AppHeader.vue';
-import AppHeader from './components/AppHeader.vue';
+import CardList from './components/CardList.vue';
 
 export default {
-  data() {
-    return {
-      count: 0
-    }
-  },
   components: {
-    AppHeader
+    CardList,
   },
-  methods: {
-    IncrementCount(){
-      this.count++
-    }
-  }
-}
+};
 </script>
 
 <template>
-<div>
-
-  <AppHeader/>
-
-  <button @click="IncrementCount()">
-
-  </button>
-  
-</div>
+  <div class="container">
+    <h1 class="text-center my-4">Yu-Gi-Oh Api</h1>
+    <CardList />
+  </div>
 </template>
 
 <style scoped>
 
 </style>
-npm,
