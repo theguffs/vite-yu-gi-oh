@@ -5,7 +5,7 @@ export default {
   data() {
     return {
       cards: [],
-      filter: 'Alien',
+      filter: 'Alien' //inizia da alien
     };
   },
   methods: {
@@ -31,6 +31,8 @@ export default {
       <label for="filter" class="form-label">Scegli una categoria:</label>
       <select id="filter" v-model="filter" @change="fetchData" class="form-select w-auto mx-auto">
         <option value="Alien">Alien</option>
+        <option value="Dinosaur">Dinosaur</option>
+        <option value="Dragon">Dragon</option>
         <!-- Aggiungi più opzioni se necessario -->
       </select>
     </div>
@@ -47,11 +49,9 @@ export default {
         </div>
       </div>
     </div>
-  </div>
-
-  
     <!-- Numero di carte trovate -->
     <h3 class="text-center mb-4">Trovate {{ cards.length }} carte</h3>
+  </div>
 </template>
 
 <style scoped>
