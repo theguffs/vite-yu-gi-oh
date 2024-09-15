@@ -5,35 +5,43 @@ export default {
   data() {
     return {
       cards: [],
-      filter: 'Alien' //inizia da alien
+      archetypes: [], // Memorizza la lista degli archetipi
+      selectedArchetype: '', // Contiene l'archetipo selezionato
     };
   },
   methods: {
-    async fetchData() {
+    async fetchArchetypes() {
       try {
-        const response = await axios.get(`https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0&fname=${this.filter}`);
-        this.cards = response.data.data;
+        const response = await axios.get('https://db.ygoprodeck.com/api/v7/archetypes.php');
+        this.archetypes = response.data.map(archetype => archetype.archetype_name);
       } catch (error) {
-        console.error(error);
+        console.error('Errore nel caricamento degli archetipi:', error);
+      }
+    },
+    async fetchCardsByArchetype() {
+      if (this.selectedArchetype) {
+        try {
+          const response = await axios.get(`https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${this.selectedArchetype}`);
+          this.cards = response.data.data;
+        } catch (error) {
+          console.error('Errore nel caricamento delle carte:', error);
+        }
       }
     },
   },
   mounted() {
-    this.fetchData();
+    this.fetchArchetypes();
   },
 };
 </script>
 
 <template>
   <div class="container">
-    <!-- Dropdown filtro -->
+    <!-- Dropdown filtro archetipi -->
     <div class="text-center mb-4">
-      <label for="filter" class="form-label">Scegli una categoria:</label>
-      <select id="filter" v-model="filter" @change="fetchData" class="form-select w-auto mx-auto">
-        <option value="Alien">Alien</option>
-        <option value="Dinosaur">Dinosaur</option>
-        <option value="Dragon">Dragon</option>
-        <!-- Aggiungi più opzioni se necessario -->
+      <label for="archetypeFilter" class="form-label">Scegli un archetipo:</label>
+      <select id="archetypeFilter" v-model="selectedArchetype" @change="fetchCardsByArchetype" class="form-select w-auto mx-auto">
+        <option v-for="archetype in archetypes" :key="archetype" :value="archetype">{{ archetype }}</option>
       </select>
     </div>
 
